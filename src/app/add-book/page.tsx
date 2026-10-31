@@ -20,6 +20,7 @@ const categories = [
 
 const initial: IBookForm = {
   title: "",
+  author: "",
   category: "Fiction",
   image: "",
   publisher: "",
@@ -122,17 +123,31 @@ const AddBookPage = () => {
         onSubmit={handleSubmit}
         className="space-y-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-[#1a1a19] md:p-8"
       >
-        <Field name="title" text="Book Title">
-          <input
-            id="title"
-            name="title"
-            required
-            value={formData.title}
-            onChange={onChange}
-            placeholder="e.g., The Great Gatsby"
-            className={input}
-          />
-        </Field>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Field name="title" text="Book Title">
+            <input
+              id="title"
+              name="title"
+              required
+              value={formData.title}
+              onChange={onChange}
+              placeholder="e.g., The Great Gatsby"
+              className={input}
+            />
+          </Field>
+
+          <Field name="author" text="Author">
+            <input
+              id="author"
+              name="author"
+              required
+              value={formData.author}
+              onChange={onChange}
+              placeholder="e.g., F. Scott Fitzgerald"
+              className={input}
+            />
+          </Field>
+        </div>
 
         <div className="grid gap-5 md:grid-cols-2">
           <Field name="category" text="Category">

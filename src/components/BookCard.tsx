@@ -48,7 +48,7 @@ export default function BookCard({ book }: { book: IBook }) {
         {/* Actions */}
         <div className="mt-auto flex items-center justify-center gap-3">
           <Link
-            href={`/books/${book._id}`}
+            href={`/all-books/${book._id}`}
             className={cn(
               buttonVariants(),
               "h-10 gap-2 bg-rose-700 px-5 font-semibold text-white hover:bg-rose-800"
