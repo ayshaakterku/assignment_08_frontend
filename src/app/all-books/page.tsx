@@ -1,4 +1,3 @@
-
 import BookCard from "@/components/BookCard";
 import { IBook} from "../type/type";
 

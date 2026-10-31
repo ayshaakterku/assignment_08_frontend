@@ -52,7 +52,7 @@ const BookDetailsPage = async ({
     : "—";
 
   const discover = [
-    { label: `More ${book.category} books`, href: `/category-books/${book.category}`},
+    { label: `More ${book.category} books`, href: `/category-books/${book.category}/${book._id}`},
     { label: "Add a book", href: "/add-book" },
     { label: "My borrows", href: "/my-borrows" },
   ];
