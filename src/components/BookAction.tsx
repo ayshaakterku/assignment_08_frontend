@@ -24,7 +24,7 @@ export function BorrowButton({
       onClick={handleBorrow}
       className={cn(
         "h-10 gap-2 bg-[#c8381a] px-5 font-semibold text-white hover:bg-[#a82d14]",
-        className
+        className,
       )}
     >
       <BookOpen className="h-4 w-4" />
@@ -69,7 +69,11 @@ export function SaveShareButtons({ title }: { title: string }) {
       </Button>
 
       <Button type="button" variant="outline" onClick={share} className={soft}>
-        {copied ? <Check className="h-4 w-4" /> : <Share2 className="h-4 w-4" />}
+        {copied ? (
+          <Check className="h-4 w-4" />
+        ) : (
+          <Share2 className="h-4 w-4" />
+        )}
         {copied ? "Link copied" : "Share"}
       </Button>
     </>

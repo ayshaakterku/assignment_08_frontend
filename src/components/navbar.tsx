@@ -22,7 +22,7 @@ const links = [
   { label: "All Books", href: "/all-books", protected: false },
   { label: "Add Book", href: "/add-book", protected: true },
   { label: "My Books", href: "/my-books", protected: true },
-  { label: "My Borrows", href: "/my-borrows", protected: true },
+  { label: "My Borrows", href: "/my-borrow-book", protected: true },
 ];
 
 const btn =

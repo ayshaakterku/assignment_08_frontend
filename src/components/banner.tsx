@@ -72,7 +72,7 @@ const BannerPage = () => {
                   {s.text}
                 </p>
                 <Link
-                  href="/books"
+                  href="/all-books"
                   className="mt-8 inline-flex h-11 items-center justify-center rounded border border-white bg-white px-8 text-sm font-semibold text-[#141413] transition hover:border-[#ff9f1b] hover:bg-[#ff9f1b] hover:text-white"
                 >
                   Browse Books

@@ -3,7 +3,8 @@ import { notFound } from "next/navigation";
 import { ArrowLeft, ChevronRight } from "lucide-react";
 import { IBook } from "@/app/type/type";
 import BookCover from "@/components/BookCover";
-import { BorrowButton, SaveShareButtons } from "@/components/BookAction";
+import BorrowAction from "@/components/BorrowAction";
+import { SaveShareButtons } from "@/components/BookAction";
 
 const API_URL = "http://localhost:5000";
 
@@ -51,8 +52,25 @@ const BookDetailsPage = async ({
       })
     : "—";
 
+  const handleBorrow = async () => {
+    const resBook = await fetch("http://localhost:5000/addtomycollection", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(book),
+    });
+
+    if (!resBook.ok) {
+      throw new Error("Failed to borrow book");
+    }
+  };
+
   const discover = [
-    { label: `More ${book.category} books`, href: `/category-books/${book.category}/${book._id}`},
+    {
+      label: `More ${book.category} books`,
+      href: `/category-books/${book.category}/${book._id}`,
+    },
     { label: "Add a book", href: "/add-book" },
     { label: "My borrows", href: "/my-borrows" },
   ];
@@ -110,10 +128,10 @@ const BookDetailsPage = async ({
 
             {/* Actions */}
             <div className="mt-6 flex flex-wrap gap-3">
-              <BorrowButton available={copies > 0} className="rounded-xl" />
+              <BorrowAction book={book} copies={copies} />
 
               <Link
-                href="/books"
+                href="/all-books"
                 className="inline-flex h-10 items-center gap-2 rounded-xl bg-white px-4 text-sm font-semibold text-neutral-900 shadow-sm transition hover:bg-neutral-50 dark:bg-neutral-800 dark:text-white dark:hover:bg-neutral-700"
               >
                 <ArrowLeft className="h-4 w-4" />
