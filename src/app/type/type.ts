@@ -24,3 +24,12 @@ export interface IBookForm {
 export interface IBook extends IBookForm {
   _id: string;
 }
+
+
+
+export interface IMyBook extends Omit<IBook, "totalPages" | "totalCopies"> {
+  username: string;
+  email: string;
+  totalPages: number;
+  totalCopies: number;
+}

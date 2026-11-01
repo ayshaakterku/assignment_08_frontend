@@ -21,7 +21,7 @@ const links = [
   { label: "Home", href: "/", protected: false },
   { label: "All Books", href: "/all-books", protected: false },
   { label: "Add Book", href: "/add-book", protected: true },
-  { label: "My Books", href: "/my-books", protected: true },
+  { label: "My Books", href: "/my-added-books", protected: true },
   { label: "My Borrows", href: "/my-borrow-books", protected: true },
 ];
 
