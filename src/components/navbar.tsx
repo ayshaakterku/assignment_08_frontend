@@ -22,7 +22,7 @@ const links = [
   { label: "All Books", href: "/all-books", protected: false },
   { label: "Add Book", href: "/add-book", protected: true },
   { label: "My Books", href: "/my-books", protected: true },
-  { label: "My Borrows", href: "/my-borrow-book", protected: true },
+  { label: "My Borrows", href: "/my-borrow-books", protected: true },
 ];
 
 const btn =
@@ -109,8 +109,8 @@ export default function Navbar() {
               </Link>
 
               <Popover>
-                <PopoverTrigger>
-                  <button className="rounded-full outline-none">
+                <PopoverTrigger className="rounded-full outline-none">
+                  {/* <button className="rounded-full outline-none"> */}
                     <Avatar>
                       <AvatarImage
                         referrerPolicy="no-referrer"
@@ -120,7 +120,7 @@ export default function Navbar() {
                         {user.name?.charAt(0)?.toUpperCase() || "U"}
                       </AvatarFallback>
                     </Avatar>
-                  </button>
+                  {/* </button> */}
                 </PopoverTrigger>
 
                 <PopoverContent className="w-64">

@@ -7,6 +7,7 @@ import { Save, Trash2 } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { IBookForm } from "../type/type";
+import { authClient } from "@/lib/auth-client";
 
 const categories = [
   "Fiction",
@@ -68,6 +69,9 @@ const AddBookPage = () => {
     text: string;
   } | null>(null);
 
+    const { data: session, isPending } = authClient.useSession();
+    const user = session?.user;
+
   const onChange = (
     e: ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -82,6 +86,8 @@ const AddBookPage = () => {
     setSubmitting(true);
 
     const bookData = {
+      username: user?.name,
+      email: user?.email,
       ...formData,
       totalPages: Number(formData.totalPages),
       totalCopies: Number(formData.totalCopies),
@@ -115,13 +121,13 @@ const AddBookPage = () => {
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10">
-      <h1 className="mb-8 text-3xl font-bold text-neutral-900 dark:text-white">
+      <h1 className="mb-6 text-3xl font-bold text-neutral-900 dark:text-white">
         Add New Book
       </h1>
 
       <form
         onSubmit={handleSubmit}
-        className="space-y-5 rounded-xl border border-gray-200 bg-white p-6 shadow-sm dark:border-neutral-700 dark:bg-[#1a1a19] md:p-8"
+        className="space-y-2 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-neutral-700 dark:bg-[#1a1a19] md:p-8"
       >
         <div className="grid gap-5 md:grid-cols-2">
           <Field name="title" text="Book Title">
@@ -243,7 +249,7 @@ const AddBookPage = () => {
             value={formData.description}
             onChange={onChange}
             placeholder="e.g., When a quiet student receives a letter describing events..."
-            rows={5}
+            rows={4}
             className={input}
           />
         </Field>
@@ -273,7 +279,35 @@ const AddBookPage = () => {
               Could not load this image link.
             </p>
           )}
+          
         </Field>
+        <div className="grid gap-5 md:grid-cols-2">
+          <Field name="userName" text="User Name">
+            <input
+              id="userName"
+              name="userName"
+              type="string"
+              readOnly
+              value={user?.name}
+              onChange={onChange}
+              placeholder="e.g., 320"
+              className={input}
+            />
+          </Field>
+
+          <Field name="userEmail" text="User Email">
+            <input
+              id="userEmail"
+              name="userEmail"
+              type="string"
+              readOnly
+              value={user?.email}
+              onChange={onChange}
+              placeholder="e.g., 5"
+              className={input}
+            />
+          </Field>
+        </div>        
 
         {message && (
           <p
