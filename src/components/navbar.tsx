@@ -100,26 +100,18 @@ export default function Navbar() {
         <div className="flex items-center gap-3 lg:ml-auto">
           {isPending ? null : user ? (
             <>
-              <Link
-                href="/profile"
-                className="flex items-center gap-1.5 text-sm font-medium text-white transition-colors hover:text-cyan-400"
-              >
-                <User size={16} />
-                Profile
-              </Link>
-
               <Popover>
                 <PopoverTrigger className="rounded-full outline-none">
                   {/* <button className="rounded-full outline-none"> */}
-                    <Avatar>
-                      <AvatarImage
-                        referrerPolicy="no-referrer"
-                        src={user.image ?? undefined}
-                      />
-                      <AvatarFallback>
-                        {user.name?.charAt(0)?.toUpperCase() || "U"}
-                      </AvatarFallback>
-                    </Avatar>
+                  <Avatar>
+                    <AvatarImage
+                      referrerPolicy="no-referrer"
+                      src={user.image ?? undefined}
+                    />
+                    <AvatarFallback>
+                      {user.name?.charAt(0)?.toUpperCase() || "U"}
+                    </AvatarFallback>
+                  </Avatar>
                   {/* </button> */}
                 </PopoverTrigger>
 
@@ -128,7 +120,13 @@ export default function Navbar() {
                     <PopoverTitle>{user.name}</PopoverTitle>
                     <PopoverDescription>{user.email}</PopoverDescription>
                   </PopoverHeader>
-
+                  <Link
+                    href="/profile"
+                    className="flex items-center gap-1.5 text-sm font-medium transition-colors hover:text-cyan-400"
+                  >
+                    <User size={16} />
+                    Profile
+                  </Link>
                   <Button
                     onClick={handleSignOut}
                     variant="destructive"

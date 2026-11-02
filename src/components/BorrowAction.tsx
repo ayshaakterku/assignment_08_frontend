@@ -183,7 +183,7 @@ const BorrowAction = ({ book, copies }: Props) => {
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       {/* asChild avoids nesting a <button> inside a <button> */}
-      <PopoverTrigger asChild>
+      <PopoverTrigger>
         <Button
           disabled={
             copies <= 0 || isBorrowed || loading || checking || isPending
