@@ -1,5 +1,10 @@
+
+"use client";
+
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReturnButton from "@/components/ReturnButton";
+import { authClient } from "@/lib/auth-client";
 
 const API_URL = "http://localhost:5000";
 
@@ -29,15 +34,51 @@ const formatDate = (date?: string) =>
       })
     : "—";
 
-const BorrowBookPage = async () => {
-  const res = await fetch(`${API_URL}/showmycollection`, {
-    cache: "no-store",
-  });
-  const raw: IBorrowRecord[] = res.ok ? await res.json() : [];
+const BorrowBookPage = () => {
+  const { data: session, isPending } = authClient.useSession();
+  const user = session?.user;
 
-  // Works with both the flat shape and the nested { book: {...} } shape
+  const [raw, setRaw] = useState<IBorrowRecord[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (isPending) return;
+
+    if (!user?.email) {
+      setRaw([]);
+      setLoading(false);
+      return;
+    }
+
+    let cancelled = false;
+
+    const load = async () => {
+      try {
+        const res = await fetch(`${API_URL}/showmycollection/${user.email}`, {
+          cache: "no-store",
+        });
+
+        const data: IBorrowRecord[] = res.ok ? await res.json() : [];
+
+        if (!cancelled) setRaw(data);
+      } catch {
+        if (!cancelled) setRaw([]);
+      } finally {
+        if (!cancelled) setLoading(false);
+      }
+    };
+
+    load();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [isPending, user?.email]);
+
+  // Works with both flat and nested book data
   const borrows = raw.map((item) => {
     const b = item.book ?? item;
+
     return {
       id: item._id,
       bookId: item.bookId ?? item.book?._id ?? item._id,
@@ -49,12 +90,24 @@ const BorrowBookPage = async () => {
     };
   });
 
+  if (isPending || loading) {
+    return (
+      <main className="min-h-screen bg-[#fff4ef] dark:bg-[#141413]">
+        <div className="mx-auto max-w-7xl px-4 py-8 text-neutral-600 dark:text-neutral-400">
+          Loading...
+        </div>
+      </main>
+    );
+  }
+
   return (
     <main className="min-h-screen bg-[#fff4ef] dark:bg-[#141413]">
       <div className="mx-auto max-w-7xl px-4 py-8">
         <h1 className="mb-6 font-serif text-3xl font-bold text-neutral-900 dark:text-white">
           My Borrows{" "}
-          <span className="text-lg text-neutral-500">({borrows.length})</span>
+          <span className="text-lg text-neutral-500">
+            ({borrows.length})
+          </span>
         </h1>
 
         {borrows.length === 0 ? (
@@ -62,8 +115,9 @@ const BorrowBookPage = async () => {
             <p className="text-neutral-600 dark:text-neutral-400">
               You haven&apos;t borrowed any books yet.
             </p>
+
             <Link
-              href="/books"
+              href="/all-books"
               className="mt-4 inline-block font-semibold text-[#c8381a] hover:underline"
             >
               Browse books
@@ -78,9 +132,12 @@ const BorrowBookPage = async () => {
                   <th className="px-4 py-3 font-semibold">Title</th>
                   <th className="px-4 py-3 font-semibold">Borrow Date</th>
                   <th className="px-4 py-3 font-semibold">Return Date</th>
-                  <th className="px-4 py-3 text-right font-semibold">Action</th>
+                  <th className="px-4 py-3 text-right font-semibold">
+                    Action
+                  </th>
                 </tr>
               </thead>
+
               <tbody>
                 {borrows.map((item) => (
                   <tr
@@ -99,6 +156,7 @@ const BorrowBookPage = async () => {
                         <div className="h-20 w-14 rounded-md bg-neutral-200 dark:bg-neutral-700" />
                       )}
                     </td>
+
                     <td className="px-4 py-3 font-semibold text-neutral-900 dark:text-white">
                       <Link
                         href={`/books/${item.bookId}`}
@@ -106,20 +164,31 @@ const BorrowBookPage = async () => {
                       >
                         {item.title}
                       </Link>
+
                       {item.author && (
                         <p className="text-xs font-normal text-neutral-500">
                           {item.author}
                         </p>
                       )}
                     </td>
+
                     <td className="px-4 py-3 text-neutral-700 dark:text-neutral-300">
                       {formatDate(item.borrowDate)}
                     </td>
+
                     <td className="px-4 py-3 text-neutral-700 dark:text-neutral-300">
                       {formatDate(item.returnDate)}
                     </td>
+
                     <td className="px-4 py-3 text-right">
-                      <ReturnButton recordId={item.id} />
+                      <ReturnButton
+                        recordId={item.id}
+                        onReturned={(id) =>
+                          setRaw((prev) =>
+                            prev.filter((record) => record._id !== id)
+                          )
+                        }
+                      />
                     </td>
                   </tr>
                 ))}
@@ -133,3 +202,4 @@ const BorrowBookPage = async () => {
 };
 
 export default BorrowBookPage;
+
