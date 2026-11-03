@@ -101,7 +101,7 @@ const AddBookPage = () => {
     try {
       // Get authentication token
       const token = await getTokenFromClient();
-      console.log("token: ", token)
+      // console.log("token: ", token)
 
       if (!token) {
         throw new Error("Authentication token not found.");

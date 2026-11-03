@@ -12,6 +12,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 interface Props {
   book: IBook;
@@ -69,6 +70,13 @@ const BorrowAction = ({ book, copies }: Props) => {
     const controller = new AbortController();
 
     const checkMyCollection = async () => {
+      // Get authentication token
+      const token = await getTokenFromClient();
+      // console.log(token);
+      if (!token) {
+        throw new Error("Authentication token not found.");
+      }      
+
       try {
         setChecking(true);
 
@@ -77,6 +85,9 @@ const BorrowAction = ({ book, copies }: Props) => {
           {
             cache: "no-store",
             signal: controller.signal,
+            headers:{
+            authorization: `Bearer ${token}`, //convention
+          },
           },
         );
 
@@ -147,11 +158,18 @@ const BorrowAction = ({ book, copies }: Props) => {
         borrowDate: formatDate(borrowDate),
         returnDate: formatDate(returnDate),
       };
+      // Get authentication token
+      const token = await getTokenFromClient();
+      // console.log(token);
+      if (!token) {
+        throw new Error("Authentication token not found.");
+      }
 
       const res = await fetch(`${API_URL}/addtomycollection`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          authorization: `Bearer ${token}`, //convention
         },
         body: JSON.stringify(borrowData),
       });

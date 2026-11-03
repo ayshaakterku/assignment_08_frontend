@@ -1,13 +1,23 @@
 import { IBook } from '@/app/type/type';
 import BookCard from '@/components/BookCard';
+import { getTokenFromServer } from '@/lib/getTokenFromServer';
 import React from 'react';
 
 
 
 const CategoryBooKPage = async ({params, }: { params: Promise<{ categoryId: string; bookId: string }>;}) => {
 
+    // Get authentication token
+    const token = await getTokenFromServer();
+    if (!token) {
+      throw new Error("Authentication token not found.");
+    }
     const { categoryId, bookId } = await params;
-    const res = await fetch(`http://localhost:5000/book-category/${encodeURIComponent(categoryId)}/${bookId}`);
+    const res = await fetch(`http://localhost:5000/book-category/${encodeURIComponent(categoryId)}/${bookId}`, {
+      headers: {
+      authorization: `Bearer ${token}`, //convention
+    },
+    });
 
     if (!res.ok) throw new Error(`Failed to fetch books (${res.status})`);
 

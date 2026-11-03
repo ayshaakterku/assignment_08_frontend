@@ -5,13 +5,25 @@ import { IBook } from "@/app/type/type";
 import BookCover from "@/components/BookCover";
 import BorrowAction from "@/components/BorrowAction";
 import { SaveShareButtons } from "@/components/BookAction";
+import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
 const API_URL = "http://localhost:5000";
 
 async function getBook(id: string): Promise<IBook | null> {
+  
+  // Get authentication token
+  const token = await getTokenFromServer();
+  if (!token) {
+    throw new Error("Authentication token not found.");
+  }
+
   const res = await fetch(`${API_URL}/single-book/${id}`, {
     // cache: "no-store",
+    headers: {
+      authorization: `Bearer ${token}`, //convention
+    },
   });
+
   if (!res.ok) return null;
   const data = await res.json();
   return data && data._id ? (data as IBook) : null;

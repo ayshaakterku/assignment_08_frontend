@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import ReturnButton from "@/components/ReturnButton";
 import { authClient } from "@/lib/auth-client";
+import { getTokenFromClient } from "@/lib/getTokenFromClient";
 
 const API_URL = "http://localhost:5000";
 
@@ -53,9 +54,20 @@ const BorrowBookPage = () => {
     let cancelled = false;
 
     const load = async () => {
+      
+      // Get authentication token
+      const token = await getTokenFromClient();
+      // console.log(token);
+      if (!token) {
+        throw new Error("Authentication token not found.");
+      }
+
       try {
         const res = await fetch(`${API_URL}/showmycollection/${user.email}`, {
           cache: "no-store",
+          headers:{
+            authorization: `Bearer ${token}`, //convention
+          }
         });
 
         const data: IBorrowRecord[] = res.ok ? await res.json() : [];
