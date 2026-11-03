@@ -25,7 +25,7 @@ export default function Footer() {
         {/* Brand */}
         <div>
           <Link href="/" className="flex items-center gap-2">
-            <Image src="/nav-icon.png" alt="BookNook logo" width={36} height={36} />
+            <Image src="/footer-icon.png" alt="BookNook logo" width={36} height={36} />
             <span className="font-serif text-xl font-bold text-neutral-900 dark:text-white">
               BookNook
             </span>
