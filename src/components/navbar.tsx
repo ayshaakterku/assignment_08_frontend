@@ -16,6 +16,7 @@ import {
   PopoverTitle,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import ThemeToggle from "./ThemeToggle";
 
 const links = [
   { label: "Home", href: "/", protected: false },
@@ -134,6 +135,7 @@ export default function Navbar() {
                   >
                     Sign out
                   </Button>
+                  <ThemeToggle/>
                 </PopoverContent>
               </Popover>
             </>
@@ -145,6 +147,7 @@ export default function Navbar() {
               <Link href="/signup" className={btn}>
                 Register
               </Link>
+              <ThemeToggle/>
             </>
           )}
         </div>
