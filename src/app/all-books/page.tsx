@@ -2,7 +2,7 @@ import BookCard from "@/components/BookCard";
 import { IBook} from "../type/type";
 
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getBooks(): Promise<IBook[]> {
   // no-store so newly added books show up right away

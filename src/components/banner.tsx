@@ -11,7 +11,7 @@ import "swiper/css/pagination";
 
 // Free-to-use photos from Unsplash (Unsplash License).
 // Plain CSS background images, so no next.config.js changes are needed.
-const img = (id) =>
+const img = (id:string) =>
   `https://images.unsplash.com/${id}?auto=format&fit=crop&w=1920&q=80`;
 
 const slides = [

@@ -13,7 +13,7 @@ const CategoryBooKPage = async ({params, }: { params: Promise<{ categoryId: stri
       throw new Error("Authentication token not found.");
     }
     const { categoryId, bookId } = await params;
-    const res = await fetch(`http://localhost:5000/book-category/${encodeURIComponent(categoryId)}/${bookId}`, {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/book-category/${encodeURIComponent(categoryId)}/${bookId}`, {
       headers: {
       authorization: `Bearer ${token}`, //convention
     },

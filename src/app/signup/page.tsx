@@ -44,7 +44,7 @@ function SignUpPage() {
     };
 
     // Password validation
-    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{8,}$/;
+    const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z]).{6,}$/;
 
     if (!passwordRegex.test(user.password)) {
       toast.error(
@@ -185,7 +185,7 @@ function SignUpPage() {
                   name="password"
                   type="password"
                   placeholder="Enter your password"
-                  minLength={8}
+                  minLength={6}
                   required
                 />
                 <FieldDescription>
@@ -202,7 +202,7 @@ function SignUpPage() {
                   name="confirmPassword"
                   type="password"
                   placeholder="Enter your password again"
-                  minLength={8}
+                  minLength={6}
                   required
                 />
               </Field>

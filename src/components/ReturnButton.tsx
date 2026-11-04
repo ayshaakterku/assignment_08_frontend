@@ -25,7 +25,7 @@ export default function ReturnButton({
     try {
       setLoading(true);
 
-      const res = await fetch(`http://localhost:5000/returnbook/${recordId}`, {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/returnbook/${recordId}`, {
         method: "DELETE",
         headers: {
           authorization: `Bearer ${token}`, //convention

@@ -7,7 +7,7 @@ import BorrowAction from "@/components/BorrowAction";
 import { SaveShareButtons } from "@/components/BookAction";
 import { getTokenFromServer } from "@/lib/getTokenFromServer";
 
-const API_URL = "http://localhost:5000";
+const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 async function getBook(id: string): Promise<IBook | null> {
   
@@ -65,7 +65,7 @@ const BookDetailsPage = async ({
     : "—";
 
   const handleBorrow = async () => {
-    const resBook = await fetch("http://localhost:5000/addtomycollection", {
+    const resBook = await fetch(`${API_URL}/addtomycollection`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -84,7 +84,7 @@ const BookDetailsPage = async ({
       href: `/category-books/${book.category}/${book._id}`,
     },
     { label: "Add a book", href: "/add-book" },
-    { label: "My borrows", href: "/my-borrows" },
+    { label: "My borrows", href: "/my-borrow-books" },
   ];
 
   return (
