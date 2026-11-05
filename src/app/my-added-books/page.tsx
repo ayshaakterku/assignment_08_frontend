@@ -213,7 +213,7 @@ export default function MyBooksPage() {
   const router = useRouter();
   const { data: session, isPending } = authClient.useSession();
   const email = session?.user?.email;
-  // console.log("email:", email);
+  console.log("email:", email);
 
   const [books, setBooks] = useState<IMyBook[]>([]);
   const [loading, setLoading] = useState(true);

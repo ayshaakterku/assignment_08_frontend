@@ -13,6 +13,7 @@ import {
 } from "@/components/ui/popover";
 import { authClient } from "@/lib/auth-client";
 import { getTokenFromClient } from "@/lib/getTokenFromClient";
+import { toast } from "react-toastify";
 
 interface Props {
   book: IBook;
@@ -187,7 +188,7 @@ const BorrowAction = ({ book, copies }: Props) => {
 
       setIsBorrowed(true);
       setOpen(false);
-      alert("Book borrowed successfully!");
+      toast.success("Book borrowed successfully!");
 
       router.refresh();
     } catch (error) {
