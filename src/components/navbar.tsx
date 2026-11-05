@@ -140,7 +140,7 @@ export default function Navbar() {
               </Popover>
             </>
           ) : (
-            <>
+            <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3">
               <Link href="/login" className={btn}>
                 Login
               </Link>
@@ -148,7 +148,7 @@ export default function Navbar() {
                 Register
               </Link>
               <ThemeToggle/>
-            </>
+            </div>
           )}
         </div>
       </nav>

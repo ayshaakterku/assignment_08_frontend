@@ -255,11 +255,17 @@ export default function MyBooksPage() {
   }, [email]);
 
   const handleDelete = async () => {
+    // Get authentication token
+      const token = await getTokenFromClient();
+
     if (!deleting) return;
     try {
       setDeleteLoading(true);
       const res = await fetch(`${API_URL}/delete-book/${deleting._id}`, {
         method: "DELETE",
+        headers: {
+            authorization: `Bearer ${token}`, //convention
+        }
       });
       if (!res.ok) throw new Error("Delete failed");
 
